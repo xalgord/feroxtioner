@@ -18,20 +18,17 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-# Read the URLs from the input file
 input_file="$1"
 if [ ! -f "$input_file" ]; then
   echo "Input file '$input_file' does not exist."
   exit 1
 fi
 
-# Loop through each URL in the input file
 while IFS= read -r url; do
   # Generate the output file name based on the URL
   filename=$(echo "$url" | sed 's/[^a-zA-Z0-9]/_/g')
   output_file="$output_dir/${filename}_results.txt"
-
-  # Run feroxbuster with the specified options
+  
   command="$feroxbuster_cmd -u $url -w $wordlist -o $output_file"
   echo "Running feroxbuster on $url..."
   eval "$command"
